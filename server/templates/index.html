@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room List</title>
+    <script>
+        async function fetchRooms() {
+            try {
+                const response = await fetch('/list_rooms');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch rooms');
+                }
+                const data = await response.json();
+                const roomList = document.getElementById('room-list');
+                roomList.innerHTML = '';
+
+                data.rooms.forEach(room => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Room: ${room.name}, Code: ${room.code}, Players: ${room.players}`;
+                    roomList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Could not fetch rooms. Please try again later.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchRooms);
+    </script>
+</head>
+<body>
+    <h1>Available Rooms</h1>
+    <ul id="room-list">
+        <li>Loading rooms...</li>
+    </ul>
+    <button onclick="fetchRooms()">Refresh Rooms</button>
+</body>
+</html>
