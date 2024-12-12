@@ -4,6 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 90%;
+            max-width: 600px;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f9;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f0f8ff;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
     <script>
         async function fetchRooms() {
             try {
@@ -16,9 +75,13 @@
                 roomList.innerHTML = '';
 
                 data.rooms.forEach(room => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `Room: ${room.name}, Code: ${room.code}, Players: ${room.players}`;
-                    roomList.appendChild(listItem);
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${room.name}</td>
+                        <td>${room.code}</td>
+                        <td>${room.players}</td>
+                    `;
+                    roomList.appendChild(row);
                 });
             } catch (error) {
                 console.error('Error:', error);
@@ -31,9 +94,20 @@
 </head>
 <body>
     <h1>Available Rooms</h1>
-    <ul id="room-list">
-        <li>Loading rooms...</li>
-    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Room</th>
+                <th>Code</th>
+                <th>Players</th>
+            </tr>
+        </thead>
+        <tbody id="room-list">
+            <tr>
+                <td colspan="3">Loading rooms...</td>
+            </tr>
+        </tbody>
+    </table>
     <button onclick="fetchRooms()">Refresh Rooms</button>
 </body>
 </html>
