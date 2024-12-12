@@ -33,6 +33,7 @@ def create_room():
         players = get_players(address)
     except Exception as e:
         messagebox.showerror("错误", f"获取本地Minecraft服务器失败：{e}")
+        return
 
     if ':' in address:
         port = address.split(':')[1]
